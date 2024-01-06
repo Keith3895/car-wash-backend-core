@@ -7,8 +7,8 @@ from dj_rest_auth.views import (
     PasswordResetView,
 )
 from allauth.socialaccount.views import signup
-from authentication.views import GoogleLogin
-from authentication.views import email_confirm_redirect, password_reset_confirm_redirect
+from car_wash.apps.authentication.views import GoogleLogin
+from car_wash.apps.authentication.views import email_confirm_redirect, password_reset_confirm_redirect
 from dj_rest_auth.registration.views import RegisterView
 from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 from django.urls import path
