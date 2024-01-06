@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from car_wash.config import USER_TYPES
 
 class BaseModel(models.Model):
-    created_at = models.DateTimeField(db_index=True, default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -58,7 +58,7 @@ class CustomUser(AbstractUser, BaseModel):
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer_profile')
+    cuid = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer_profile')
     dob = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=255, null=True, blank=True)
     is_profile_completed = models.BooleanField(default=False, null = True)
@@ -71,7 +71,7 @@ class Customer(models.Model):
 
 
 class Vendor(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='vendor_profile')
+    vid = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='vendor_profile')
     company_name = models.CharField(max_length=255)
     service_category = models.CharField(max_length=255)  # Type of services provided
     is_profile_completed = models.BooleanField(default=False, null = True)
@@ -83,7 +83,7 @@ class Vendor(models.Model):
 
 
 class Address(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='addresses')
+    uid = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='addresses')
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
