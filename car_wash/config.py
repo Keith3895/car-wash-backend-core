@@ -1,8 +1,8 @@
 # Define your configuration variables here
 
 USER_TYPES = {
-    1: 'CUSTOMER',
-    2: 'VENDOR',
+    'CUSTOMER': 1,
+    'VENDOR': 2,
     # Add other user types as needed
 }
 
