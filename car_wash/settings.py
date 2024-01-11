@@ -162,7 +162,8 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE": "my-app-auth",
     "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
     'JWT_AUTH_HTTPONLY':False,
-    "REGISTER_SERIALIZER":"car_wash.apps.authentication.serializers.RegisterSerializer"
+    "REGISTER_SERIALIZER":"car_wash.apps.authentication.serializers.RegisterSerializer",
+    "USER_DETAILS_SERIALIZER": "car_wash.apps.authentication.serializers.UserSerializer",
 }
 
 
@@ -216,6 +217,3 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'authentication.serializers.UserSerializer',
-}
