@@ -45,6 +45,7 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [
 	'car_wash.apps.authentication',
+    'car_wash.apps.vendor'
 ]
 
 THIRD_PARTY_APPS = [
