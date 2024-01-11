@@ -25,7 +25,6 @@ class Vendor(APIView):
 
     def post(self, request):
         serializers = VendorSerializer(data=request.data)
-        print(repr(serializers))
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data, status=status.HTTP_201_CREATED)
