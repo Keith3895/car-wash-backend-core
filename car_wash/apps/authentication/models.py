@@ -25,11 +25,9 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("The Email must be set")
         if not password:
             raise ValueError("The Password must be set")
-        if extra_fields.get("user_type"):
-            extra_fields["user_type"] = USER_TYPES.get(extra_fields["user_type"])
         email = self.normalize_email(email)
         user = self.model(
-            email=email, user_type=extra_fields["user_type"], **extra_fields
+            email=email, **extra_fields
         )
         user.set_password(password)
         user.save(using=self._db)
