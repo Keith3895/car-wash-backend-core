@@ -8,7 +8,10 @@ from dj_rest_auth.views import (
 )
 from allauth.socialaccount.views import signup
 from car_wash.apps.authentication.views import GoogleLogin
-from car_wash.apps.authentication.views import email_confirm_redirect, password_reset_confirm_redirect
+from car_wash.apps.authentication.views import (
+    email_confirm_redirect,
+    password_reset_confirm_redirect,
+)
 from dj_rest_auth.registration.views import RegisterView
 from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 from django.urls import path
@@ -16,6 +19,9 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView,
+)
+from .views import (
+    user_details,
 )
 
 urlpatterns = [
@@ -26,6 +32,7 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("logout/", LogoutView.as_view(), name="rest_logout"),
     path("user/", UserDetailsView.as_view(), name="rest_user_details"),
+    path("user/update/", user_details),
     path("register/verify-email/", VerifyEmailView.as_view(), name="rest_verify_email"),
     path(
         "register/resend-email/",

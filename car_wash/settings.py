@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('DEBUG')=='True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
@@ -161,7 +161,8 @@ REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_COOKIE": "my-app-auth",
     "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
-    'JWT_AUTH_HTTPONLY':False
+    'JWT_AUTH_HTTPONLY':False,
+    "REGISTER_SERIALIZER":"car_wash.apps.authentication.serializers.RegisterSerializer"
 }
 
 
@@ -175,8 +176,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 # DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
-# AUTH_USER_MODEL = 'authentication.CustomUser'
 
+AUTH_USER_MODEL = 'authentication.CustomUser'
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
@@ -215,4 +216,6 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
-AUTH_USER_MODEL = 'authentication.CustomUser'
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'authentication.serializers.UserSerializer',
+}
