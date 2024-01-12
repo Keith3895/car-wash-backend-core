@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 import dotenv
-
+from google.oauth2 import service_account
 dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')=='True'
+DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 HOST_URL = "http://localhost:8000/"
 # Application definition
@@ -38,15 +38,12 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.auth",
     "django.contrib.contenttypes",
-	'django.contrib.sessions',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = [
-	'car_wash.apps.authentication',
-    'car_wash.apps.vendor'
-]
+LOCAL_APPS = ["car_wash.apps.authentication", "car_wash.apps.vendor"]
 
 THIRD_PARTY_APPS = [
     "rest_framework",
@@ -132,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'Asia/Kolkata'           
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -162,8 +159,8 @@ REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_COOKIE": "my-app-auth",
     "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
-    'JWT_AUTH_HTTPONLY':False,
-    "REGISTER_SERIALIZER":"car_wash.apps.authentication.serializers.RegisterSerializer",
+    "JWT_AUTH_HTTPONLY": False,
+    "REGISTER_SERIALIZER": "car_wash.apps.authentication.serializers.RegisterSerializer",
     "USER_DETAILS_SERIALIZER": "car_wash.apps.authentication.serializers.UserSerializer",
 }
 
@@ -179,7 +176,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
 
-AUTH_USER_MODEL = 'authentication.CustomUser'
+AUTH_USER_MODEL = "authentication.CustomUser"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
@@ -218,3 +215,19 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
+
+# GOOGLE_APPLICATION_CREDENTIALS=os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+GS_BUCKET_NAME = "car_wash_bucket"
+# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+    },
+}
+
+
+# storage
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, os.getenv("GOOGLE_SERVICE_ACC"))
+)
