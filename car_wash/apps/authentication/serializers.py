@@ -1,13 +1,14 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth import get_user_model
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(UserDetailsSerializer):
     class Meta:
-        model = get_user_model
+        model = get_user_model()
         fields = ["id", "email", "first_name", "last_name", "user_type"]
 
 

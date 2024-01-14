@@ -23,10 +23,10 @@ def password_reset_confirm_redirect(request, uidb64, token):
 @permission_classes([IsAuthenticated])
 def user_details(request):
     user = get_user_model().objects.get(id=request.user.pk)
-    user.first_name = request.data.get("first_name")
-    user.last_name = request.data.get("last_name")
-    user.phone = request.data.get("phone")
-    user.user_type = request.data.get("user_type")
+    user.first_name = request.data.get("first_name") or user.first_name
+    user.last_name = request.data.get("last_name") or user.last_name
+    user.phone = request.data.get("phone") or user.phone
+    user.user_type = request.data.get("user_type") or user.user_type
     user.save()
     return JsonResponse(user.get_JSON(), status=status.HTTP_200_OK)
 

@@ -94,24 +94,6 @@ class Customer(models.Model):
         return self.name
 
 
-class Vendor(models.Model):
-    vid = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="vendor_profile",
-    )
-    company_name = models.CharField(max_length=255)
-    service_category = models.CharField(max_length=255)  # Type of services provided
-    is_profile_completed = models.BooleanField(default=False, null=True)
-    is_account_verified = models.BooleanField(default=False)
-    preferred_contact_method = models.CharField(
-        max_length=50, choices=[("email", "Email"), ("phone", "Phone")], default="email"
-    )
-
-    def __str__(self):
-        return self.company_name
-
-
 class Address(models.Model):
     uid = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="addresses"
