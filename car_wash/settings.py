@@ -159,6 +159,7 @@ REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_COOKIE": "my-app-auth",
     "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
+    "SESSION_LOGIN":False,
     "JWT_AUTH_HTTPONLY": False,
     "REGISTER_SERIALIZER": "car_wash.apps.authentication.serializers.RegisterSerializer",
     "USER_DETAILS_SERIALIZER": "car_wash.apps.authentication.serializers.UserSerializer",

@@ -3,7 +3,7 @@ from .models import Upload, Vendor, PaymentInformation, KYC, VendorDocument
 
 
 class VendorDocumentSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField(read_only=True)
+    # id = serializers.UUIDField(read_only=True)
 
     def create_vendor_document(self, file, filename):
         if not file:
@@ -70,11 +70,12 @@ class KYCSerializer(serializers.ModelSerializer):
 class VendorSerializer(serializers.ModelSerializer):
     payment_information = PaymentInformationSerializer()
     kyc = KYCSerializer()
-    vendor_images = VendorDocumentSerializer(many=True)
+    vendor_images = VendorDocumentSerializer(many=True,required=False)
 
     def create(self, validated_data):
         payment_information_data = validated_data.pop("payment_information")
         kyc_data = validated_data.pop("kyc")
+
         payment_information = PaymentInformation.objects.create(
             **payment_information_data
         )
@@ -94,4 +95,3 @@ class VendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = "__all__"
-
