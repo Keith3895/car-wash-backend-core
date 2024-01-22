@@ -1,5 +1,8 @@
 from rest_framework import serializers
+
+from car_wash.apps.authentication.serializers import AddressSerializer
 from .models import Upload, Vendor, PaymentInformation, KYC, VendorDocument
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 
 class VendorDocumentSerializer(serializers.ModelSerializer):
@@ -67,23 +70,24 @@ class KYCSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class VendorSerializer(serializers.ModelSerializer):
+class VendorSerializer(GeoFeatureModelSerializer):
     payment_information = PaymentInformationSerializer()
     kyc = KYCSerializer()
     vendor_images = VendorDocumentSerializer(many=True,required=False)
-
+    vendor_address = AddressSerializer(required=False)
     def create(self, validated_data):
         payment_information_data = validated_data.pop("payment_information")
         kyc_data = validated_data.pop("kyc")
-
+        address = validated_data.pop("vendor_address")
         payment_information = PaymentInformation.objects.create(
             **payment_information_data
         )
         kyc = KYC.objects.create(**kyc_data)
+        address = AddressSerializer().create(address)
         vendor_images_data = self.initial_data.pop("vendor_images")
         validated_data.pop("vendor_images")
         vendor = Vendor.objects.create(
-            payment_information=payment_information, kyc=kyc, **validated_data
+            payment_information=payment_information, kyc=kyc,vendor_address=address, **validated_data
         )
 
         for vendor_image_data in vendor_images_data:
@@ -94,4 +98,5 @@ class VendorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vendor
+        geo_field = 'vendor_address'
         fields = "__all__"

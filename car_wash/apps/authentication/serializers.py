@@ -5,6 +5,11 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth import get_user_model
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
+
+
+
+from .models import Address
 
 class UserSerializer(UserDetailsSerializer):
     class Meta:
@@ -37,3 +42,10 @@ class RegisterSerializer(RegisterSerializer):
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
         return user
+
+class AddressSerializer(GeoFeatureModelSerializer):
+    class Meta:
+        model = Address
+        geo_field = 'location'
+        fields = "__all__"
+        

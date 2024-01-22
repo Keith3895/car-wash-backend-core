@@ -41,6 +41,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis"
 ]
 
 LOCAL_APPS = ["car_wash.apps.authentication", "car_wash.apps.vendor"]
@@ -48,6 +49,7 @@ LOCAL_APPS = ["car_wash.apps.authentication", "car_wash.apps.vendor"]
 THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
+    "rest_framework_gis",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -96,7 +98,8 @@ WSGI_APPLICATION = "car_wash.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        # "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": os.getenv("DATABASE_NAME"),
         "USER": os.getenv("DATABASE_USER"),
         "PASSWORD": os.getenv("DATABASE_PASS"),

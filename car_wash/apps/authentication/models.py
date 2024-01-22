@@ -1,8 +1,7 @@
-from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-
+from django.contrib.gis.db import models
 from car_wash.config import USER_TYPES
 import uuid
 
@@ -95,17 +94,16 @@ class Customer(models.Model):
 
 
 class Address(models.Model):
-    uid = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="addresses"
-    )
-    street = models.CharField(max_length=255)
+    street = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
+    location = models.PointField(geography=True, srid=4326, null=True, blank=True)
     address_type = models.CharField(
         max_length=50,
         choices=[("billing", "Billing"), ("shipping", "Shipping"), ("both", "Both")],
+        default="both",
     )
     default = models.BooleanField(default=False)
 

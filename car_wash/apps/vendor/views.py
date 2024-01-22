@@ -7,6 +7,7 @@ from car_wash.apps.vendor.serializations import PaymentInformationSerializer, Ve
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
+from .models import Vendor as VendorModel
 
 # Create your views here.
 @permission_classes([IsAuthenticated])
@@ -41,7 +42,19 @@ class PaymentInformation(APIView):
 class Vendor(APIView):
     
     def get(self, request):
-        pass
+        
+        # Get query parameters
+        # company_name = request.query_params.get('company_name', None)
+
+        # Get all vendors or filter based on query parameters
+        if request.user.id is not None:
+            vendors = VendorModel.objects.filter(uid=request.user.id)
+
+        # Serialize the vendors
+        serializer = VendorSerializer(vendors, many=True)
+
+        # Return the serialized vendors
+        return Response(serializer.data)
 
     def post(self, request):
         serializers = VendorSerializer(data=request.data)
