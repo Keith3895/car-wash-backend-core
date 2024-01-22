@@ -9,6 +9,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from .models import Vendor as VendorModel
 
+from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.geos import Point
+from django.contrib.gis.db.models import PointField
+
+
 # Create your views here.
 @permission_classes([IsAuthenticated])
 class VendorDocument(APIView):
@@ -66,3 +71,24 @@ class Vendor(APIView):
     # def put(self, request):
     #     vendor = Vendor.objects.get(id=request.data["id"])
     #     serializser = VendorSerializer(vendor, data=request.data)
+
+
+@permission_classes([IsAuthenticated])    
+class VendorList(APIView):
+    """
+    List all vendors, or create a new vendor.
+    """
+    def get(self, request, format=None):
+        lat = float(request.query_params.get('lat', None))
+        lng = float(request.query_params.get('lng', None))
+        radius = 5
+        point = Point(lng, lat, srid=4326)    
+        vendors = VendorModel.objects.annotate(distance=Distance('vendor_address__location', point)).filter(distance__lte=5000)
+        serializer = VendorSerializer(vendors, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = VendorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)

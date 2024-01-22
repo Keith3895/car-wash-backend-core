@@ -6,4 +6,5 @@ urlpatterns = [
     path('', views.Vendor.as_view()),
     path('payment-information/', views.PaymentInformation.as_view()),
     path('vendor-document/', views.VendorDocument.as_view()),
+    path('list/', views.VendorList.as_view()),
 ]
