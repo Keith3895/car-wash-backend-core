@@ -9,7 +9,7 @@ Django==4.2.11
 django-allauth==0.59.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
-idna==3.6
+idna==3.7
 oauthlib==3.2.2
 psycopg==3.1.16
 psycopg2==2.9.9
